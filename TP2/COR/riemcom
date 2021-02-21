@@ -1,0 +1,3 @@
+plot 'riem.dat' using 1:2 with line,\
+'riem.dat' using 1:3 with line
+pause -1

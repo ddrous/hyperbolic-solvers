@@ -1,0 +1,38 @@
+set term wxt size 1000, 400
+set xtics ("20" 1, "100" 2, "500" 3, "2500" 4)
+set xlabel "Nombre de mailles N"
+
+set style line 1 \
+    linecolor rgb 'red' \
+    linetype 1 linewidth 2 \
+    pointtype 2 pointsize 0.75 pointinterval 1
+
+set style line 2 \
+    linecolor rgb '#006400' \
+    linetype 1 linewidth 2 \
+    pointtype 7 pointsize 0.5
+
+set style line 3 \
+    linecolor rgb 'orange' \
+    linetype 1 linewidth 2 \
+    pointtype 5 pointsize 0.75 pointinterval 1
+
+set size 1,1;
+set size ratio 0.7
+set multiplot layout 1, 2 ;
+#'#8A2BE2'
+
+set logscale y
+
+set title "Erreur L1";
+set ylabel "Erreur norme L1"
+plot 'rusaVSgodu.dat' using 1:2 with linespoints ls 3 title "VFRoe corrigé", \
+'rusaVSgodu.dat' using 1:4 with linespoints ls 1 title "Godunov"
+
+set title "Temps d'execution";
+set ylabel "Temps d'exécution"
+plot 'rusaVSgodu.dat' using 1:3 with linespoints ls 3 title "VFRoe corrigé", \
+'rusaVSgodu.dat' using 1:5 with linespoints ls 1 title "Godunov"
+
+unset multiplot
+pause -1

@@ -1,0 +1,5 @@
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QEn s'inspirant de la définition du flux de Rusanov en 1D, on écrit \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q où la vitesse de Rusanov locale satisfait la condition \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q on choisit donc \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q À l'intérieur du Kernel de calcul OpenCL utilisé, le flux de Rusanov s'implémente comme ceci:\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QExpression du flux numérique \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q de Rusanov en 2D en vue d'une approximation numérique du système de Saint-Venant.\\E$"}
+{"rule":"ACCORD_GENRE","sentence":"^\\QAutrement dit, \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q si \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q sinon Enfin, le vecteur vitesse à l'interface est obtenu en résolvant le système: \\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QLes problèmes seront résolus en utilisant le flux de Rusanov 2D.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QIl s'agira dans cas du flux de Rusanov donc on voudrait améliorer la précision\\E$"}

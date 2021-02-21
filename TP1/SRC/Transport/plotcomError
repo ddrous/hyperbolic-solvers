@@ -1,0 +1,17 @@
+set terminal epslatex color
+set output 'TransportCvg.tex'
+
+set logscale x
+set logscale y
+f(x) = a*x+b
+
+set xlabel "log($\\Delta x$)"
+set ylabel "log(Erreur $L^1$)" rotate by 90
+
+fit f(x) 'erreur.dat' using (log($1)):(log($2)) via a, b
+
+plot 'erreur.dat' using 1:2 with line title sprintf("Pente = %f", a), \
+# exp(f(log(x))) title sprintf("Fit avec pente %f", a)
+pause -1
+
+set output

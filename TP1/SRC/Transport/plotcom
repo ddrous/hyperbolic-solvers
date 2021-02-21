@@ -1,0 +1,6 @@
+set xlabel "x"
+set ylabel "u(x,T)" rotate by 90
+
+set yrange[-0.05:1.05]
+plot 'godu.dat' using 1:2 with line title "Sol. exacte", 'godu.dat' using 1:3 with line title "Sol. numérique"
+pause -1

@@ -1,0 +1,369 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% fphw Assignment
+% LaTeX Template
+% Version 1.0 (27/04/2019)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Authors:
+% Class by Felipe Portales-Oliva (f.portales.oliva@gmail.com) with template 
+% content and modifications by Vel (vel@LaTeXTemplates.com)
+%
+% Template (this file) License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	french,
+	11pt, % Default font size, values between 10pt-12pt are allowed
+	%letterpaper, % Uncomment for US letter paper size
+	%spanish, % Uncomment for Spanish
+]{fphw}
+
+% Template-specific packages
+\usepackage{babel}
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{mathpazo} % Use the Palatino font
+% \usepackage{iwona} % Use the Iwona font
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{xfrac} 
+
+\usepackage{graphicx} % Required for including images
+\usepackage{caption}  %% To manage long captions in images
+\usepackage{subcaption}
+\captionsetup{justification=centering}
+
+\usepackage{float}
+\graphicspath{ {./img/} }
+
+\usepackage{booktabs} % Required for better horizontal rules in tables
+
+\usepackage{listings} % Required for insertion of code
+
+\usepackage{array} % Required for spacing in tabular environment
+
+\usepackage{enumerate} % To modify the enumerate environment
+
+\usepackage{amssymb}
+\usepackage{enumitem}	%% % To modify the itemize bullet character
+
+\usepackage{xcolor}
+\usepackage{listings}
+\colorlet{mygray}{black!30}
+\colorlet{mygreen}{green!60!blue}
+\colorlet{mymauve}{red!60!blue}
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{blue},      
+  language=c++,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\usepackage[linkcolor=blue,colorlinks=true]{hyperref}
+\usepackage{cleveref}
+\usepackage{siunitx}
+\newcommand{\bvec}[1]{\bm{#1}}    %% For vector notation
+\newcommand{\myvec}[3]{\begin{pmatrix} #1  \\ #2 \\ #3 \end{pmatrix}}   %% vecteur 3d
+\newcommand{\mymat}[9]{\begin{pmatrix} #1 & #2 & #3 \\ #4 & #5 & #6 \\ #7 & #8 &#9 \end{pmatrix}}  %% Matrice 3*3
+
+\renewcommand{\vector}[4]{\begin{pmatrix} #1  \\ #2 \\ #3 \end{pmatrix}}   %% vecteur 3d
+% \newcommand{\mymatrix}[16]{\begin{pmatrix} #1 & #2 & #3 & #4 \\ #4 & #6 & #7 & #8 \\ #9 & #10 & #11 & #12 \\ #13 & #14 & #15 & #16 \end{pmatrix}}  %% Matrice 3*3
+
+\newcommand{\hquad}{\hspace{0.5em}} %% Bew command for half quad
+% \setlength\parindent{0pt}	%% To remove all indentations
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{TP \#3} % Assignment title
+
+\author{Roussel Desmond Nzoyem} % Student name
+
+\date{\today} % Due date
+
+\institute{Université de Strasbourg \\ UFR de Mathématiques et Informatique} % Institute or school name
+
+\class{EDP 2} % Course or class name
+
+\professor{Pr. Philippe Helluy} % Professor or teacher in charge of the assignment
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Output the assignment title, created automatically using the information in the custom commands above
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT CONTENT - SECTION 1
+%----------------------------------------------------------------------------------------
+
+
+\section*{Résolution numérique du système de Saint-Venant en deux dimensions}
+
+Le modèle de Saint-Venant en deux dimensions s'écrit 
+
+\begin{align*}
+	\partial_t w + \partial_x (hu) + \partial_y(hv)  &=0 \\
+	\partial_t(hu) + \partial_x \left(hu^2 + g\frac{h^2}{2} \right) + \partial_y(huv) &= -gh \partial_x A \tag{$\mathcal{S}$}\\ 
+	\partial_t(hv) + \partial_x(huv) + \partial_y \left(hv^2 + g\frac{h^2}{2} \right) &= -gh \partial_y A 
+	\label{eq:stVenant2D}
+\end{align*}
+
+où 
+\begin{itemize}
+	\item $A(x,y)$ désigne l’altitude du point $(x,y)$
+	\item $h(x,y,t) \geq 0$ désigne la hauteur du point $(x,y)$ à l'instant $t$
+	\item $u(x,y,t)$ désigne la composante suivant $x$ du vecteur vitesse du point $(x,y)$ à l'instant $t$
+	\item $v(x,y,t)$ désigne la composante suivant $y$ du vecteur vitesse du point $(x,y)$ à l'instant $t$
+\end{itemize}
+
+
+Notre domaine d'étude sera le carré $[0,L]\times[0,L]$ tel que la hauteur d’eau $h$ soit petite devant $L$.
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 1.}
+
+\begin{problem}
+Écriture du système de Saint-Venant 2D sous la forme 
+\begin{equation}
+	\partial_t w + \partial_x f_1(w) + \partial_y f_2(w) = S(w) \tag{$\mathcal{S}'$}	
+\end{equation}
+\end{problem}
+
+
+\subsection*{Réponse} 
+
+La variable $A$ étatn indépendante du temps i.e $\partial_t A = 0$ et on condidere la variable conservative 
+$$w= \vector{w_1}{w_2}{w_3}{w_4} = \vector{h}{hu}{hv}{A}$$
+On remarque que le système $(\mathcal{S})$ se met facilement sous la forme
+$$
+\partial_t w + \partial_x f_1(h,u,v) + \partial_y f_2(h,u,v) = S(A)
+$$
+où les fonction $f_1$, $f_2$, et $S$ sont expriomées en termes de variables primitives $h, u$, $v$ et $A$. 
+$$f_1(h,u,v) = \vector{hu}{hu^2 + \dfrac{gh^2}{2}}{huv}{0}, \qquad f_2(h,u,v) = \myvec{hv}{huv}{hv^2 + \dfrac{gh^2}{2}}, \qquad S(A) = \vector{0}{-gh\partial_xA}{-gh\partial_y A}{0}$$
+En supposant $w_1>0$, on les exprimes en fonction de $w$ en remarque que $$\vector{h}{u}{v}{A} = \vector{w_1}{\sfrac{w_2}{w_1}}{\sfrac{w_3}{w_1}}{w_4}$$
+Le système $(\mathcal{S})$ se met sous la forme $(\mathcal{S}')$ demandée avec 
+$$f_1(w) = \vector{w_2}{\sfrac{w_2^2}{w_1} + \sfrac{gw_1^2}{2}}{\sfrac{w_2w_3}{w_1}}{0}, \qquad f_2(w) = \vector{w_3}{\sfrac{w_2w_3}{w_1}}{\sfrac{w_3^2}{w_1} + \sfrac{gw_1^2}{2}}{0}, \qquad S(w)=\vector{0}{-gh\partial_x w_4}{-gh\partial_x w_4}{0}$$
+
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 2.}
+
+\begin{problem}
+Vérifions que le système de Saint-Venant 2D est hyperbolique.
+\end{problem}
+
+
+\subsection*{Réponse} 
+Pour cela, posons $n=(n_1,n_2)$ et $f(w)\cdot n = f_1(w)n_1 + f_2(w)n_2$) et vérifions que la matrice jacobienne de la divergence du flux $B = \partial_w \left( f(w)\cdot n \right)$ est diagonalisable pour tout $w$ tel que $w_1 \geq 0$ et pour tout $n$. 
+
+En remarquant que les équation sont invariantes par rotation (aucune direction de propagation n'est provilégiée), il suffit de regarder l'hyperbolicité dans une direction. Prenons donc $n=(1,0)$ et étudions les valeurs propres de $B$. On a, pour $w_1 > 0$,
+$$f(w)\cdot n = f_1(w) = \vector{w_2}{\frac{w_2^2}{w_1} + \frac{gw_1^2}{2}}{\frac{w_2w_3}{w_1}}{0}$$
+et 
+% \mymat{0}{1}{0}{+gw_1+gA}{\dfrac{2w_2}{w_1}}{0}{-\dfrac{w_2w_3}{w_1}}{\dfrac{w_3}{w_1}}{\dfrac{w_2}{w_1}}
+\begin{align*}
+	B = \partial_w \left( f(w)\cdot n \right) = \begin{pmatrix} 0 & 1 & 0  \\ \frac{w_2^2}{w_1^2}+gw_1 & \frac{2w_2}{w_1} & 0  \\ -\frac{w_2w_3}{w_1} & \frac{w_3}{w_1} & \frac{w_2}{w_1} \end{pmatrix}
+\end{align*}
+et donc pour tout $\lambda \in \mathbb{R} $,
+\begin{align*}
+	\text{det}(B-\lambda I_3) &= \text{det} \mymat{-\lambda}{1}{0}{-\dfrac{w_2^2}{w_1^2}+gw_1+gA}{\dfrac{2w_2}{w_1}-\lambda}{0}{-\dfrac{w_2w_3}{w_1}}{\dfrac{w_3}{w_1}}{\dfrac{w_2}{w_1}-\lambda}  \\
+	&= -\lambda \left( \frac{2w_2}{w_1} -\lambda \right)\left( \frac{w_2}{w_1} -\lambda \right) + \left( \frac{w_2^2}{w_1^2} +gw_1 +gA \right)\left( \frac{w_2}{w_1} -\lambda \right)     \\
+	&= \left( \frac{w_2}{w_1} -\lambda \right) \left[ \lambda^2 - \lambda \left(\frac{2w_2}{w_1}\right) + \frac{w_2^2}{w_1^2}-gw_1-gA  \right] \\
+	&= \left( \frac{w_2}{w_1} -\lambda \right) \left( \frac{w_2}{w_1} - \sqrt{g(w_1 + A)} \right) \left( \frac{w_2}{w_1} + \sqrt{g(w_1 + A)} \right)
+\end{align*}
+On constate donc que $B$ admets trois valeurs propres réelles ordonées et définies par 
+\begin{align*}
+	\lambda_1(w,n) &= \frac{w_2}{w_1} - \sqrt{g(w_1 + A)} \\
+	\lambda_2(w,n) &= \frac{w_2}{w_1} \\
+	\lambda_3(w,n) &= \frac{w_2}{w_1} + \sqrt{g(w_1 + A)}
+\end{align*}
+Ce calcul se généralise a toutes les directions $n$ de l'espace et on montre, en repassant aux variables primitives et en posant $U = (u,v)$, que 
+\begin{align*}
+	\lambda_1(w,n) &= U\cdot n - \sqrt{g(h + A)} \\
+	\lambda_2(w,n) &= U\cdot n \\
+	\lambda_3(w,n) &= U\cdot n + \sqrt{g(h + A)}
+\end{align*}
+valable pour tout $w$ tel que $w_1 \geq 0$ (le cas $w_1 = 0$ i.e $h=0$ étant trivialement traité en repassant en variables primitives). Le système de Saint-Venant 2D $\mathcal{S}$ est donc hyperbolique.
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 3.}
+
+\begin{problem}
+	Expression du flux numérique $f(w_L, w_R, n)$ de Rusanov en 2D en vue d'une approximation numérique du systeme de Saint-Venant.
+\end{problem}
+
+
+\subsection*{Réponse} 
+En s'inspirant de la définition du flux de Rusanov en 1D, on écrit
+\begin{align*}
+	f(w_L, w_R, n) = \frac{1}{2}\left( f(w_L,n)+f(w_R,n)  \right) - \frac{\lambda_{LR}}{2}(w_R - w_L)
+\end{align*}
+où la vitesse de Rusanov locale satisfait la condition 
+$$
+\lambda_{LR} \geq \max_{k=1,2,3}{\big\{ \max{ \big\{ \vert \lambda_k(w_L,n) \vert, \, \vert \lambda_k(w_L,n) \vert }\big\} \big\}}
+$$
+on choisit donc 
+$$
+\lambda_{LR} = \max{ \Big\{ \vert U_L\cdot n \vert + \sqrt{g(h_L+A)}, \,\, \vert U_R\cdot n \vert + \sqrt{g(h_R+A)} }\Big\}
+$$
+A l'intérieur du Kernel de calcul OpenCL, le flux de Rusanov s'implémente comme ceci:
+\begin{lstlisting}[language=C, caption={Flux numérique de Rusanov en 2D},breaklines]
+void flux_rusa_2d(float *wL, float *wR, float* vnorm, float* flux){
+	float fL[_M];
+	float fR[_M];
+	
+	fluxphy(wL, vnorm, fL);
+	fluxphy(wR, vnorm, fR);
+	
+	float UL[2] = {wL[1]/wL[0], wL[2]/wL[0]};
+	float UR[2] = {wR[1]/wR[0], wR[2]/wR[0]};
+	
+	float cL = sqrt(_G*wL[0]);
+	float cR = sqrt(_G*wR[0]);
+	
+	float lambdaL = cL;
+	float lambdaR = cR;
+	for (int i=0; i<2; i++){
+		lambdaL += fabs(UL[i]*vnorm[i]);
+		lambdaL += fabs(UR[i]*vnorm[i]);
+	}
+	
+	float MyLAMBDA = lambdaL>lambdaR?lambdaL:lambdaR;
+	for(int iv = 0; iv < _M; iv++)
+		flux[iv] = 0.5f * (fL[iv] + fR[iv]) - 0.5f * MyLAMBDA * (wR[iv] - wL[iv]); 
+}
+\end{lstlisting}
+
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 4.}
+
+\begin{problem}
+	Décrire comment utiliser le solveur de Riemann 1D pour l’adapter aux calcul en 2D.
+\end{problem}
+
+
+\subsection*{Réponse} 
+
+\textit{En 2D, les indices $L$ désigne l'état du centre et $R$ l'état voisin. Cependant, dans cette question, ils indiquerons repectivement les états de gauche, et de droite afin de faciliter les explications.}
+
+Rappelons que dans le cas 1D, les valeurs de $h^*$ et $u^*$ aux interfaces (entre un état gauche $(h_L,u_L)$ et un état droit$(h_R,u_R)$) sont données par les solutions du problèmes de problème suivant:
+\begin{align*}
+	u_L - (h^* - h_L)Z(h_L, h^*) = u_R + (h^* - h_R)Z(h_R, h^*)
+\end{align*}
+ou la fonction $Z(\cdot, \cdot)$ de classe $C^1$ est donnee par
+\begin{align*}
+	Z(a,b) = 
+	\begin{cases}
+		\frac{2\sqrt{g}}{\sqrt{a}+\sqrt{b}}	 &\qquad	\text{si} \quad b<a \\
+		\sqrt{g}\sqrt{\frac{a+b}{2ab}}	 &\qquad	\text{si} \quad b>a 
+	\end{cases}
+\end{align*}
+Ce système résolu par la méthode de Newton permet de determiner si on est présence d'une onde simple ou ou d'un choc; et le solveur de Riemann 1D permet enfin de calculer l'état du systeme $w = (h,u)$ en un point $x/t$ donné.
+
+Pour adapter ce scéham en 2D, il suffit de remplacer la vitesse scalaire $u$ par la composante normale du vecteur vitesse $U \cdot n$, où $n=(n_1, n_2)$. Il faudra donc résoudre le système c--bas en utilisant le solveur de Riemann 1D:
+\begin{align*}
+	U_L \cdot n - (h^* - h_L)Z(h_L, h^*) = U_R \cdot n + (h^* - h_R)Z(h_R, h^*)
+\end{align*}
+Une fois la composante normale du vectuer vitesse $U^* \cdot n$ à l'interface obtenue, il nous manque sa composante tangentielle $U^* \cdot n'$, où $n' = (-n_2, n_1)$. On peut la prendre égale à la composante tangentielle de l'état de gauche, ou de celui de droite, ou l'un des deux en fonction d'un critère pertinent. Autrement dit, 
+\begin{align*}
+	U^* \cdot n' = 
+	\begin{cases}
+		U_L \cdot n' &\qquad \text{si} \quad  U^* \cdot n > 0\\
+		U_R \cdot n' &\qquad \text{sinon}
+	\end{cases}
+\end{align*}
+Enfin, le vecteur vitesse à l'interface est obtenu en résolvant le système:
+\begin{align*}
+	U^* = 
+	\begin{pmatrix} u^* \\ v^* \end{pmatrix}
+	= (U^* \cdot n)n + (U^* \cdot n')n'
+	= \begin{pmatrix} n_1 & -n_2 \\ n_2 & n_1 \end{pmatrix}
+	\begin{pmatrix} U^* \cdot n \\ U^* \cdot n' \end{pmatrix}
+\end{align*}
+
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 5.}
+
+\begin{problem}
+	Description de l’implémentation des conditions aux limites suivantes: miroir, valeurs imposées, zone sèche.
+\end{problem}
+
+\subsection*{Réponse} 
+
+\textit{Dans cette partie, l'indice $L$ désigne une cellule du maillage, et l'indeice $R$ une cellule voisine se trouvant sur le bord du domaine. Afin de faciliter les écritures, désignon par $U^n$ et $U^t$ les composantes normales et tangentielles respectives.}
+
+\subsubsection*{Zone mirroir}
+\begin{itemize}
+	\item la hauteur d'eau sur le bord est prise égale à celle au centre: $h_R = h_L$
+	\item la composante normale du vecteur vitesse est inversée: $U_R^n = -U_L^n$ 
+	\item la composante tangentille est maintenue: $U_R^t = U_L^t$
+\end{itemize}
+Au final, le vecteur vitesse sur le bord donne
+\begin{align*}
+	U_R &= -U^n_L + U^t_L \\
+	&= -U^n_L + (U_L - -U^n_L) \\
+	&= U_L - 2*(U_L \cdot n)n 
+\end{align*}  
+
+\subsubsection*{Valeur imposées}
+\begin{itemize}
+	\item la hauteur d'eau $h_R$ est donnée
+	\item les composantes normale $U_R^n$ et tangentielles $U_R^t$ du vecteur vitesse sont données 
+\end{itemize}
+Si seulemetn le module du vecteur vitesse $\Vert U_R \Vert_2$ est donnée sur le bord, on pourra prendre $U_R^n = \Vert U_R \Vert_2 n$, et prendre $U_R^t = (0,0)$.
+
+\subsubsection*{Zone sèche}
+\begin{itemize}
+	\item la hauteur d'eau $h_R = 0$ par définition
+	\item Le vecteur vitesse n'est pas définie. On peut prendre $U_R = (0,0)$ pour conformité
+\end{itemize}
+
+
+
+%----------------------------------------------------------------------
+\subsection*{Question 6.}
+
+\begin{problem}
+	Mise en oeuvre de la résolution du système de Saint-Venant sur un maillage volume fini régulier. 
+\end{problem}
+
+\subsection*{Réponse} 
+Modifier la condition initiale .. ne pas placer le rectangle!
+
+
+\end{document}

@@ -1,0 +1,3 @@
+plot 'riem.dat' using 1:2 with line title "hauteur d'eau",\
+'riem.dat' using 1:3 with line title "vitesse d'eau"
+pause -1

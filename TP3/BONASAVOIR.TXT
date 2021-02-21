@@ -1,0 +1,20 @@
+LE DOSSIER INTERRESSANT C"ESR STVENANT
+
+
+POUR CLONER LE R
+git clone https://gitlab.math.unistra.fr/patapon/patapon.git
+
+INSATLLER POCL
+sudo apt install pocl
+
+INSTALLER opencl
+
+
+INSTALLER CAIRO
+sudo apt-get install python3-gi-cairo
+
+
+POUR LA PROCHAINE FOIS
+- faire marcher le code sur sa machine, ou
+- sur une marhine distante
+- ou sur Colab

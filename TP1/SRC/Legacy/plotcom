@@ -1,0 +1,3 @@
+plot 'godu.dat' using 1:2 with line title "Solution analytique", \
+'godu.dat' using 1:3 with line title "Solution numérique"
+pause -1

@@ -1,0 +1,1 @@
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QProgrammation du schéma de Godunov et vérification au moyen du cas test indiqué.\\E$"}

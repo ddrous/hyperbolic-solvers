@@ -1,0 +1,2 @@
+plot 'godu.dat' using 1:2 with line title "Sol. exacte", 'godu.dat' using 1:3 with line title "Sol. numérique"
+pause -1

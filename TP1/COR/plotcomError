@@ -1,0 +1,12 @@
+set logscale x
+set logscale y
+f(x) = a*x+b
+
+fit f(x) 'erreur.dat' using (log($1)):(log($2)) via a, b
+
+plot 'erreur.dat' using 1:2 with line title "Erreur L1", \
+exp(f(log(x))) title sprintf("Fit avec pente %f", a)
+pause -1
+
+# plot 'erreur.dat' using 1:2 with line title "Erreur en norme L1 (mode loglog)",
+# pause -1

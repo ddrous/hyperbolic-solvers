@@ -1,0 +1,2 @@
+plot 'erreur.dat' using 1:2 with line title "Erreur en norme L1 (mode loglog)",
+pause -1
